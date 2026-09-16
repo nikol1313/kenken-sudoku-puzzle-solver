@@ -1,1 +1,1 @@
-japanise puzzle KenKen puzzle solver
+making japoanize puzzle: sudoku & kenken solvers with different algorithms.
