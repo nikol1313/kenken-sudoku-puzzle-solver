@@ -1,4 +1,4 @@
-// sudoku solver. method greedy.
+// sudoku solver. method backtracking.
 
 // example board
 const board = [
@@ -39,24 +39,40 @@ for (let i = X; i < X + 3; i++) {
     return true;
 };
 
-// insert random nums
-function insertNums(board) {
+// backtracking
+function solve(board) {
     for (let x = 0; x < board.length; x++) {
         for (let y = 0; y < board.length; y++) {
+
             if (board[x][y] === 0) {
-              for (let i = 1; i < 10; i++) {
-                if (checkRowCol(board, x , y, i) &&
-                    checkSquare(board, x, y, i)) {
-                        board[x][y] = i;          
-                        break;  
+
+                for (let num = 1; num <= 9; num++) {
+
+                    if (
+                        checkRowCol(board, x, y, num) &&
+                        checkSquare(board, x, y, num)
+                    ) {
+                        // try num
+                        board[x][y] = num;
+
+                        // continue solving
+                        if (solve(board)) {
+                            return true;
+                        }
+
+                        // reset because the prev num was bad
+                        board[x][y] = 0;
                     }
                 }
-            }
-         }
-    }
-    return board
-};
 
-// this method is bad/ in the next implementation 
-// ill add backtracking to solve recursivly 
-// and undo if solving failed in the end
+                // no number 1-9 worked here
+                return false;
+            }
+        }
+    }
+
+    // solved
+    return true;
+}
+
+// node sudokuSolver.js
